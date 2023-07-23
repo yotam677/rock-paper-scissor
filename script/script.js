@@ -10,73 +10,63 @@ function getComputerChoice() {
     }
 }
 
-function playRound(playerSelection, computerSelection) {
+
+const buffer = document.querySelector('.buffer');
+const score = document.querySelector('.score');
+let userScore = 0;
+let computerScore = 0;
+
+function playRound() {    
+    playerSelection = this.textContent;
     playerSelection = playerSelection.toLowerCase();
+    let computerSelection = getComputerChoice()
     if (playerSelection == computerSelection) {
-        return 'You are Even!';
+        buffer.textContent = 'You are Even!';    
     } else if (playerSelection == 'rock' && computerSelection == 'paper') {
-        return 'You lose! Paper beats Rock';
+        buffer.textContent = 'You lose! Paper beats Rock';
+        score.textContent = `User: ${userScore} Computer: ${++computerScore}`;
     } else if (playerSelection == 'rock' && computerSelection == 'scissor') {
-        return 'You win! Rock beats Scissor';
+        buffer.textContent = 'You win! Rock beats Scissor';
+        score.textContent = `User: ${++userScore} Computer: ${computerScore}`;
     } else if (playerSelection == 'paper' && computerSelection == 'rock') {
-        return 'You win! Paper beats Rock';
+        buffer.textContent = 'You win! Paper beats Rock';
+        score.textContent = `User: ${++userScore} Computer: ${computerScore}`;
     } else if (playerSelection == 'paper' && computerSelection == 'scissor') {
-        return 'You lose! Scissor beats Paper';
+        buffer.textContent = 'You lose! Scissor beats Paper';
+        score.textContent = `User: ${userScore} Computer: ${++computerScore}`;
     } else if (playerSelection == 'scissor' && computerSelection == 'rock') {
-        return 'You lose! Rock beats Scissor';
+        buffer.textContent = 'You lose! Rock beats Scissor';
+        score.textContent = `User: ${userScore} Computer: ${++computerScore}`;
     } else {
-        return 'You win! Scissor beats Paper!';
+        buffer.textContent = 'You win! Scissor beats Paper!';
+        score.textContent = `User: ${++userScore} Computer: ${computerScore}`;
     }
 }
 
-function getUserChoice() {
-    let userChoice = prompt('Take your choice');
-    userChoice = userChoice.toLowerCase()
-    while (userChoice != 'rock' && userChoice != 'paper' && userChoice != 'scissor') {
-        userChoice = prompt('Take a valid choice! rock, paper ,scissor');
-        userChoice = userChoice.toLowerCase()
+function gameEnd() {
+    if (userScore == 5) {
+        console.log(1);
+        buffer.textContent = `You won! game score is - user: ${userScore} computer: ${computerScore}`;
+        userScore = 0;
+        computerScore = 0;
     }
-    return userChoice;        
-}
-
-function scoring(result, userScore, computerScore) {
-    if (result.substring(0,7) == 'You win') {
-        return 1;
-    } else if (result.substring(0,8) == 'You lose') {
-        return 2;
+    else if (computerScore == 5) {
+        console.log(1);
+        buffer.textContent = `You lost! game score is - user: ${userScore} computer: ${computerScore}`;
+        userScore = 0;
+        computerScore = 0;
     }
 }
 
-function whoWon(userScore, computerScore) {
-    if (userScore > computerScore) {
-        return `You won! your's score: ${userScore} computer's score: ${computerScore}`;
-    } else if (userScore < computerScore) {
-        return `'You Lose! your's score: ${userScore} computer's score: ${computerScore}`;    
-    } else {
-        return `You and the computer are even! ${userScore} points each`;
-    }
-}
+const rock = document.querySelector('.rock');
+const paper = document.querySelector('.paper');
+const scissor = document.querySelector('.scissor');
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    let userChoice;
-    let computerChoice;
-    let result;
-    for(let i=0; i<5; i++) {
-        userChoice = getUserChoice();
-        computerChoice = getComputerChoice();
-        result = playRound(userChoice, computerChoice);
-        let points = scoring(result, playerScore, computerScore);
-        if (points == 1) {
-             ++playerScore
-        } else if (points == 2) {
-             ++computerScore
-        };
-        console.log(result);
-        console.log(playerScore + ' ' + computerScore);
-    }
-    console.log(whoWon(playerScore, computerScore));
-}
+rock.addEventListener('click', playRound);
+paper.addEventListener('click', playRound);
+scissor.addEventListener('click', playRound);
 
-game();
+score.addEventListener('DOMNodeInserted', gameEnd);
+
+
+
